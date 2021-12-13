@@ -230,7 +230,7 @@ export type LineLayerSpecification = {|
         "line-dasharray"?: DataDrivenPropertyValueSpecification<Array<number>>,
         "line-pattern"?: DataDrivenPropertyValueSpecification<ResolvedImageSpecification>,
         "line-gradient"?: ExpressionSpecification,
-        "line-gradient-linear-colors"?: DataDrivenPropertyValueSpecification<[ColorSpecification, ColorSpecification]>
+        "line-gradient-linear-colors"?: DataDrivenPropertyValueSpecification<ColorSpecification>
     |}
 |}
 

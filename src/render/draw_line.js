@@ -89,7 +89,7 @@ export default function drawLine(painter: Painter, sourceCache: SourceCache, lay
         if (gradient) {
             const layerGradient = bucket.gradients[layer.id];
             let gradientTexture = layerGradient.texture;
-            debugger
+            // debugger
             if (layer.gradientVersion !== layerGradient.version) {
                 let textureResolution = 256;
                 if (layer.stepInterpolant) {

@@ -1,4 +1,5 @@
 uniform lowp float u_device_pixel_ratio;
+uniform lowp vec4 a_line_gradient_linear_colors;
 
 varying vec2 v_width2;
 varying vec2 v_normal;
@@ -16,6 +17,7 @@ varying vec2 v_tex_b;
 uniform sampler2D u_gradient_image;
 varying highp vec2 v_uv;
 #endif
+
 
 #pragma mapbox: define highp vec4 color
 #pragma mapbox: define lowp float floorwidth
@@ -50,13 +52,8 @@ void main() {
     alpha *= smoothstep(0.5 - sdfgamma / floorwidth, 0.5 + sdfgamma / floorwidth, sdfdist);
 #endif
 
-#ifdef RENDER_LINE_GRADIENT
-    // For gradient lines, v_lineprogress is the ratio along the
-    // entire line, the gradient ramp is stored in a texture.
-    vec4 out_color = texture2D(u_gradient_image, v_uv);
-#else
-    vec4 out_color = color;
-#endif
+
+vec4 out_color = u_line_gradient_linear_colors;
 
 #ifdef FOG
     out_color = fog_dither(fog_apply_premultiplied(out_color, v_fog_pos));

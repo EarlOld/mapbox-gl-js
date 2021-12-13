@@ -47,7 +47,7 @@ export type PaintProps = {|
     "line-dasharray": CrossFadedDataDrivenProperty<Array<number>>,
     "line-pattern": CrossFadedDataDrivenProperty<ResolvedImage>,
     "line-gradient": ColorRampProperty,
-    "line-gradient-linear-colors": DataConstantProperty<[Color, Color]>,
+    "line-gradient-linear-colors": DataConstantProperty<Color>,
 |};
 
 const paint: Properties<PaintProps> = new Properties({
