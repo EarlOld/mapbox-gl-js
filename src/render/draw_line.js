@@ -23,7 +23,13 @@ export default function drawLine(painter: Painter, sourceCache: SourceCache, lay
     if (painter.renderPass !== 'translucent') return;
 
     const opacity = layer.paint.get('line-opacity');
+    const lineGradientLinearColors = layer.paint.get('line-gradient-linear-colors');
+    console.log("lineGradientLinearColors", lineGradientLinearColors.value.value)
+   
     const width = layer.paint.get('line-width');
+    if (!lineGradientLinearColors.value.value) {
+        const qweqwe = lineGradientLinearColors.evaluate();
+    }
     if (opacity.constantOr(1) === 0 || width.constantOr(1) === 0) return;
 
     const depthMode = painter.depthModeForSublayer(0, DepthMode.ReadOnly);
@@ -46,9 +52,11 @@ export default function drawLine(painter: Painter, sourceCache: SourceCache, lay
     for (const coord of coords) {
         const tile = sourceCache.getTile(coord);
         if (image && !tile.patternsLoaded()) continue;
+        const fte = [];
+        tile.querySourceFeatures(fte);
 
         const bucket: ?LineBucket = (tile.getBucket(layer): any);
-        if (!bucket) continue;
+        if (!bucket) continue;  
         painter.prepareDrawTile(coord);
 
         const programConfiguration = bucket.programConfigurations.get(layer.id);
@@ -81,6 +89,7 @@ export default function drawLine(painter: Painter, sourceCache: SourceCache, lay
         if (gradient) {
             const layerGradient = bucket.gradients[layer.id];
             let gradientTexture = layerGradient.texture;
+            // debugger
             if (layer.gradientVersion !== layerGradient.version) {
                 let textureResolution = 256;
                 if (layer.stepInterpolant) {

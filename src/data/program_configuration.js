@@ -178,6 +178,7 @@ class SourceExpressionBinder implements AttributeBinder {
         const start = this.paintVertexArray.length;
         assert(Array.isArray(availableImages));
         const value = this.expression.evaluate(new EvaluationParameters(0), feature, {}, canonical, availableImages, formattedSection);
+        // debugger
         this.paintVertexArray.resize(newLength);
         this._setPaintValue(start, newLength, value);
     }
@@ -412,8 +413,12 @@ export default class ProgramConfiguration {
         this._buffers = [];
 
         const keys = [];
-
+        if (layer.id === 'route') {
+            debugger;
+        }
         for (const property in layer.paint._values) {
+           
+
             if (!filterProperties(property)) continue;
             const value = layer.paint.get(property);
             if (!(value instanceof PossiblyEvaluatedPropertyValue) || !supportsPropertyExpression(value.property.specification)) {
@@ -427,7 +432,6 @@ export default class ProgramConfiguration {
             const isCrossFaded = propType === 'cross-faded' || propType === 'cross-faded-data-driven';
 
             const sourceException = String(property) === 'line-dasharray' && (layer.layout: any).get('line-cap').value.kind !== 'constant';
-
             if (expression.kind === 'constant' && !sourceException) {
                 this.binders[property] = isCrossFaded ?
                     new CrossFadedConstantBinder(expression.value, names) :
@@ -658,6 +662,7 @@ const attributeNameExceptions = {
     'icon-halo-blur': ['halo_blur'],
     'text-halo-width': ['halo_width'],
     'icon-halo-width': ['halo_width'],
+    'line-gradient-linear-colors': ['line_gradient_linear_colors'],
     'line-gap-width': ['gapwidth'],
     'line-pattern': ['pattern_to', 'pattern_from', 'pixel_ratio_to', 'pixel_ratio_from'],
     'fill-pattern': ['pattern_to', 'pattern_from', 'pixel_ratio_to', 'pixel_ratio_from'],
@@ -673,6 +678,10 @@ const propertyExceptions = {
     'line-pattern': {
         'source': PatternLayoutArray,
         'composite': PatternLayoutArray
+    },
+    'line-gradient-linear-colors': {
+        'source': StructArrayLayout2f8,
+        'composite': StructArrayLayout4f16
     },
     'fill-pattern': {
         'source': PatternLayoutArray,

@@ -740,7 +740,7 @@ export class Properties<Props: Object> {
 
         for (const property in properties) {
             const prop = properties[property];
-            if (prop.specification.overridable) {
+            if (prop.specification && prop.specification.overridable) {
                 this.overridableProperties.push(property);
             }
             const defaultPropertyValue = this.defaultPropertyValues[property] =
